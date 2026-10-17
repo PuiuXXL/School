@@ -1,0 +1,275 @@
+josan@fedora:~/Documents/Files/School/PF/lab1$ ls
+josan@fedora:~/Documents/Files/School/PF/lab1$ ls
+elm.json  elm-stuff  src
+josan@fedora:~/Documents/Files/School/PF/lab1$ elm repl
+---- Elm 0.19.3 ----------------------------------------------------------------
+Say :help for help and :exit to exit! More at <https://elm-lang.org/0.19.3/repl>
+--------------------------------------------------------------------------------
+> 1 + 1
+2 : number
+> "Hello" ++ "Hello"
+"HelloHello" : String
+> fact n = if n == 0 then 1 else n * fact (n-1)
+<function> : number -> number
+> fact 3
+6 : number
+> fact 5 - 1
+119 : number
+> fact 4
+24 : number
+> slowAdd a b = if b == 0 then a else 1 + slowAdd a (b - 1)
+<function> : number -> number1 -> number
+> slowAdd 1 100
+101 : number
+> slowAdd 1 100
+101 : number
+> slowAdd 100 1
+101 : number
+> slowAdd 1 10000
+RangeError: Maximum call stack size exceeded
+> slowAdd 100 100
+200 : number
+> slowAdd 1000 1001
+2001 : number
+> slowAdd 10000 10001
+RangeError: Maximum call stack size exceeded
+> slowAdd 10001 10000
+RangeError: Maximum call stack size exceeded
+> slowAdd 7000 7001
+RangeError: Maximum call stack size exceeded
+> slowAdd 7001 7000
+RangeError: Maximum call stack size exceeded
+> slowAdd 5000 5001
+RangeError: Maximum call stack size exceeded
+> slowAdd 3000 3001
+6001 : number
+> slowAdd 3001 3000
+6001 : number
+> slowAdd 4000 4001
+8001 : number
+> slowAdd 5000 5001
+RangeError: Maximum call stack size exceeded
+> slowAdd 4900 4901\
+RangeError: Maximum call stack size exceeded
+> slowAdd 4900 4901
+RangeError: Maximum call stack size exceeded
+> slowAdd 4800 4801
+RangeError: Maximum call stack size exceeded
+> slowAdd 4700 4701
+RangeError: Maximum call stack size exceeded
+> slowAdd 4600 4601
+RangeError: Maximum call stack size exceeded
+> slowAdd 4500 4501
+RangeError: Maximum call stack size exceeded
+> slowAdd 4300 4401
+RangeError: Maximum call stack size exceeded
+> slowAdd 4400 4401
+RangeError: Maximum call stack size exceeded
+> slowAdd 4300 4301
+RangeError: Maximum call stack size exceeded
+> slowAdd 4200 4201
+8401 : number
+> slowAdd 4201 4200
+8401 : number
+> slowAdd 4290 4291
+RangeError: Maximum call stack size exceeded
+> slowAdd 4291 4290
+RangeError: Maximum call stack size exceeded
+> slowAdd 4281 4280
+RangeError: Maximum call stack size exceeded
+> slowAdd 4280 4281
+RangeError: Maximum call stack size exceeded
+> slowAdd 4271 4270
+RangeError: Maximum call stack size exceeded
+> slowAdd 4261 4260
+RangeError: Maximum call stack size exceeded
+> slowAdd 4251 4250
+RangeError: Maximum call stack size exceeded
+> slowAdd 4241 4240
+8481 : number
+> slowAdd 4240 4241
+8481 : number
+> slowAdd 4241 4242
+RangeError: Maximum call stack size exceeded
+> slowAdd 4242 4241
+8483 : number
+> :reset
+<reset>
+> betterAdd a b = if b == 0 then a else betterAdd (a + 1) (b - 1)
+<function> : number -> number1 -> number
+> betterAdd 4242 4241
+8483 : number
+> betterAdd 4241 4242
+8483 : number
+> fib n = if (n == 0) || (n == 1) then 1 else (fib (n - 1)) + (fib (n-2))
+<function> : number1 -> number
+> fib 20
+10946 : number
+> fib 40
+165580141 : number
+> fib 45
+1836311903 : number
+> gcd a b = if b == 0 then a else gcd b modBy b a
+-- TYPE MISMATCH ---------------------------------------------------------- REPL
+
+The 2nd argument to `gcd` is not what I expect:
+
+3| gcd a b = if b == 0 then a else gcd b modBy b a
+                                         ^^^^^
+This `modBy` value is a:
+
+    Int -> Int -> Int
+
+But `gcd` needs the 2nd argument to be:
+
+    number
+
+Hint: I always figure out the argument types from left to right. If an argument
+is acceptable, I assume it is “correct” and move on. So the problem may actually
+be in one of the previous arguments!
+
+Hint: Only Int and Float values work as numbers.
+
+> modBY\
+-- NAMING ERROR ----------------------------------------------------------- REPL
+
+I cannot find a `modBY` variable:
+
+5|   modBY
+     ^^^^^
+These names seem close though:
+
+    modBy
+    abs
+    cos
+    fib
+
+Hint: Read <https://elm-lang.org/0.19.3/imports> to see how `import`
+declarations work in Elm.
+
+> gcd a b = if b == 0 then a else gcd b (modBY b a)
+-- NAMING ERROR ----------------------------------------------------------- REPL
+
+I cannot find a `modBY` variable:
+
+3| gcd a b = if b == 0 then a else gcd b (modBY b a)
+                                          ^^^^^
+These names seem close though:
+
+    modBy
+    b
+    abs
+    cos
+
+Hint: Read <https://elm-lang.org/0.19.3/imports> to see how `import`
+declarations work in Elm.
+
+> gcd a b = if b == 0 then a else gcd b (modBy b a)
+<function> : Int -> Int -> Int
+> gcd 60 12
+12 : Int
+> gcd 70 12
+2 : Int
+> gcd 70 25
+5 : Int
+> gcd 70 50
+10 : Int
+> 
+> 
+> ack n m = if n == 0 then (m + 1) else if m == 0 then ack (n - 1) 1 else ack (n - 1) (ack(n,(m-1)))
+-- TYPE MISMATCH ---------------------------------------------------------- REPL
+
+The 2nd argument to `ack` is not what I expect:
+
+2| ack n m = if n == 0 then (m + 1) else if m == 0 then ack (n - 1) 1 else ack (n - 1) (ack(n,(m-1)))
+                                                                                        ^^^^^^^^^^^^
+This `ack` call produces:
+
+    number1 -> number1
+
+But `ack` needs the 2nd argument to be:
+
+    number1
+
+Hint: I always figure out the argument types from left to right. If an argument
+is acceptable, I assume it is “correct” and move on. So the problem may actually
+be in one of the previous arguments!
+
+Hint: Only Int and Float values work as numbers.
+
+-- TYPE MISMATCH ---------------------------------------------------------- REPL
+
+The 1st argument to `ack` is not what I expect:
+
+2| ack n m = if n == 0 then (m + 1) else if m == 0 then ack (n - 1) 1 else ack (n - 1) (ack(n,(m-1)))
+                                                                                           ^^^^^^^^^
+This argument is a tuple of type:
+
+    ( number, number1 )
+
+But `ack` needs the 1st argument to be:
+
+    number
+
+Hint: Only Int and Float values work as numbers.
+
+> ack n m = 
+|   if n == 0 then 
+|   
+fib        gcd        betterAdd  :exit      :help      :quit      :reset
+| 
+fib        gcd        betterAdd  :exit      :help      :quit      :reset
+| 
+fib        gcd        betterAdd  :exit      :help      :quit      :reset
+| 
+> 
+> 
+> 
+> ack n m = \
+| 
+> 
+> 
+> ack n m =
+|   if n == 0 then
+|   m + 1
+|   else if m == 0 then
+|   ack (n - 1) 1
+|   else
+|   ack (n - 1) (ack n (m - 1))
+|   
+<function> : number -> number1 -> number1
+> ack 1 1
+\3 : number
+> ack 1 1
+3 : number
+> ack 2 3
+9 : number
+> ack 3 3
+61 : number
+> ack 4 1
+RangeError: Maximum call stack size exceeded
+> ack 3 10\
+8189 : number
+> 
+> 
+> sudan n x y = 
+|   if n == 0 then
+|   x + y
+|   else if (n > 0) && (y == 0) then
+|   x
+|   else
+|   sudan (n - 1) (sudan n x (y - 1))  ( y + sudan n x (y - 1) )
+|   
+<function> : number -> number1 -> number1 -> number1
+> sudan 1 1 1
+3 : number
+> sudan 1 2 1
+5 : number
+> sudan 1 2 2
+12 : number
+> sudan 2 1 1
+8 : number
+> sudan 2 2 2
+15569256417 : number
+> 
+
