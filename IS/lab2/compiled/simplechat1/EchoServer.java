@@ -62,6 +62,29 @@ public class EchoServer extends AbstractServer
       ("Server listening for connections on port " + getPort());
   }
   
+  @Override
+protected void clientConnected(ConnectionToClient client)
+{
+  client.setInfo("address", client.toString());
+
+  System.out.println(
+    "Client conectat: " + client.getInfo("address"));
+}
+
+@Override
+protected synchronized void clientDisconnected(ConnectionToClient client)
+{
+  System.out.println(
+    "Client deconectat: " + client.getInfo("address"));
+}
+
+@Override
+protected synchronized void clientException(
+    ConnectionToClient client, Throwable exception)
+{
+  clientDisconnected(client);
+}
+
   /**
    * This method overrides the one in the superclass.  Called
    * when the server stops listening for connections.

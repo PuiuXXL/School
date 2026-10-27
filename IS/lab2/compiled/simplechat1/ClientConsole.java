@@ -102,21 +102,32 @@ public class ClientConsole implements ChatIF
    *
    * @param args[0] The host to connect to.
    */
-  public static void main(String[] args) 
-  {
-    String host = "";
-    int port = 0;  //The port number
+  public static void main(String[] args)
+{
+  String host = args.length > 0 ? args[0] : "localhost";
+  int port = DEFAULT_PORT;
 
+  if (args.length > 1)
+  {
     try
     {
-      host = args[0];
+      port = Integer.parseInt(args[1]);
+
+      if (port < 1 || port > 65535)
+      {
+        System.out.println("Portul trebuie sa fie intre 1 si 65535.");
+        return;
+      }
     }
-    catch(ArrayIndexOutOfBoundsException e)
+    catch (NumberFormatException e)
     {
-      host = "localhost";
+      System.out.println("Portul trebuie sa fie un numar intreg.");
+      return;
     }
-    ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
-    chat.accept();  //Wait for console data
   }
+
+  ClientConsole chat = new ClientConsole(host, port);
+  chat.accept();
+}
 }
 //End of ConsoleChat class
