@@ -4,6 +4,7 @@
 
 import java.io.*;
 import ocsf.server.*;
+import common.ChatIF;
 
 /**
  * This class overrides some of the methods in the abstract 
@@ -23,6 +24,7 @@ public class EchoServer extends AbstractServer
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
+  private ChatIF serverUI;
   
   //Constructors ****************************************************
   
@@ -33,9 +35,14 @@ public class EchoServer extends AbstractServer
    */
   public EchoServer(int port) 
   {
-    super(port);
+    this(port, message -> System.out.println(message));
   }
 
+  public EchoServer(int port, ChatIF serverUI)
+{
+  super(port);
+  this.serverUI = serverUI;
+}
   
   //Instance methods ************************************************
   
@@ -51,7 +58,18 @@ public class EchoServer extends AbstractServer
     System.out.println("Message received: " + msg + " from " + client);
     this.sendToAllClients(msg);
   }
-    
+
+  /** Displays and broadcasts a message typed in the server console. */
+public void handleMessageFromServerUI(String message)
+{
+  String serverMessage = "SERVER MSG> " + message;
+
+  serverUI.display(serverMessage);
+  sendToAllClients(serverMessage);
+}
+
+
+
   /**
    * This method overrides the one in the superclass.  Called
    * when the server starts listening for connections.
@@ -99,34 +117,14 @@ protected synchronized void clientException(
   
   /**
    * This method is responsible for the creation of 
-   * the server instance (there is no UI in this phase).
+   * the server console and server instance.
    *
    * @param args[0] The port number to listen on.  Defaults to 5555 
    *          if no argument is entered.
    */
   public static void main(String[] args) 
   {
-    int port = 0; //Port to listen on
-
-    try
-    {
-      port = Integer.parseInt(args[0]); //Get port from command line
-    }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; //Set port to 5555
-    }
-	
-    EchoServer sv = new EchoServer(port);
-    
-    try 
-    {
-      sv.listen(); //Start listening for connections
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println("ERROR - Could not listen for clients!");
-    }
+    ServerConsole.main(args);
   }
 }
 //End of EchoServer class

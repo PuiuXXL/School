@@ -49,4 +49,4 @@ countVowels s =
         countHelper (String.toList s)
         -- ['a','b','c']
 
-partition : List a -> (List a, List a)
+-- partition : List a -> (List a, List a)
